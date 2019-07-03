@@ -9,24 +9,23 @@ using Microsoft.Extensions.Configuration;
 namespace comprehend_custom {
 	class Program {
 		const string DataAccessRoleArn = "arn:aws:iam::865118636886:role/comprehend-s3";
-		const string LabeledFile = "s3://s6jackjack/JEOPARDY_CSV-labeled.csv";
+		const string TrainingFile = "s3://s6jackjack/JEOPARDY_CSV-labeled.csv";
 		static void Main(string[] args) {
 			var awsOptions = BuildAwsOptions();
 			var service = new ComprehendService(awsOptions.CreateServiceClient<IAmazonComprehend>());
 
-			var jobName = Guid.NewGuid().ToString().Replace("-", "");
+			// create a custom classifier using training data
+			var jobName = Guid.NewGuid().ToString();
 			Console.WriteLine(jobName);
-			var task = service.CreateCustomClassifier(jobName, "en", DataAccessRoleArn, LabeledFile);
+			var task = service.CreateCustomClassifier(jobName, "en", DataAccessRoleArn, TrainingFile);
 			task.Wait();
 			var taskArn = task.Result.DocumentClassifierArn;
 			Console.WriteLine(taskArn);
-			service.WaitForClassificationToFinish(taskArn);
-			Console.WriteLine("custom classification complete");
+			service.WaitForCreationCompletion(taskArn);
+			Console.WriteLine("custom classifier created");
 
-			// var jobTask = service.StartCustomClassificationJob("random", "s3://s6r8/JEOPARDY_CSV-labeled.csv", "s3://s6r8/");
-			// jobTask.Wait();
-			// var jobId = jobTask.Result.JobId;
-			// service.WaitForClassificationJobToFinish(jobId);
+			// run a batch job on unlabeled data using the classifier you just created
+
 		}
 
 		private static AWSOptions BuildAwsOptions() {
@@ -44,7 +43,7 @@ namespace comprehend_custom {
 			this.comprehend = comprehend;
 		}
 
-		public async Task<StartDocumentClassificationJobResponse> StartCustomClassificationJob(string jobName, string inputS3Uri, string outputS3Uri) {
+		public async Task<StartDocumentClassificationJobResponse> StartBatchJob(string jobName, string inputS3Uri, string outputS3Uri) {
 			return await this.comprehend.StartDocumentClassificationJobAsync(new StartDocumentClassificationJobRequest {
 				JobName = jobName,
 				InputDataConfig = new InputDataConfig {
@@ -68,7 +67,7 @@ namespace comprehend_custom {
 			});
 		}
 
-		public bool IsClassificationComplete(string jobArn) {
+		public bool IsCreationComplete(string jobArn) {
 			var task = this.comprehend.DescribeDocumentClassifierAsync(new DescribeDocumentClassifierRequest {
 				DocumentClassifierArn = jobArn
 			});
@@ -80,7 +79,7 @@ namespace comprehend_custom {
 			return status == "IN_ERROR" || status == "TRAINED";
 		}
 
-		public bool IsClassificationJobComplete(string jobId) {
+		public bool IsBatchJobComplete(string jobId) {
 			var task = this.comprehend.DescribeDocumentClassificationJobAsync(new DescribeDocumentClassificationJobRequest {
 				JobId = jobId
 			});
@@ -89,13 +88,13 @@ namespace comprehend_custom {
 			return status == "FAILED" || status == "COMPLETED";
 		}
 
-		public void WaitForClassificationToFinish(string jobArn, int delay = 5000) {
-			while(!IsClassificationComplete(jobArn)) {
+		public void WaitForCreationCompletion(string jobArn, int delay = 5000) {
+			while(!IsCreationComplete(jobArn)) {
 				this.Wait(delay);
 			}
 		}
-		public void WaitForClassificationJobToFinish(string jobId, int delay = 5000) {
-			while(!IsClassificationJobComplete(jobId)) {
+		public void WaitForJobCompletion(string jobId, int delay = 5000) {
+			while(!IsBatchJobComplete(jobId)) {
 				this.Wait(delay);
 			}
 		}
@@ -103,21 +102,6 @@ namespace comprehend_custom {
 		private void Wait(int delay = 5000) {
 			Task.Delay(delay).Wait();
 			Console.Write(".");
-		}
-
-		public async Task<DetectSentimentResponse> DetectSentiment(string languageCode, string text) {
-			return await this.comprehend.DetectSentimentAsync(new DetectSentimentRequest {
-				LanguageCode = languageCode,
-				Text = text
-			});
-		}
-
-		public async Task<List<Entity>> DetectEntities(string languageCode, string text) {
-			var task = await this.comprehend.DetectEntitiesAsync(new DetectEntitiesRequest {
-				LanguageCode = languageCode,
-				Text = text
-			});
-			return task.Entities;
 		}
 	}
 }
