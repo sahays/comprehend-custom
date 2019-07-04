@@ -21,19 +21,6 @@ You need to set the following variables in Program.cs file inside `custom-classi
 | InputFile  | This file has test data that is used as an input for the Comprehend classification batch job. You can use your own file or upload the `test-data.csv` to your S3 bucket provided with this sample
 | OutputLocation | This is the S3 bucket where the Comprehend classification batch job output will be emitted. You can see a sample output file `output.jsonl` in the `analysis-job` folder
 
-# Prerequisites
-- [Dotnet Core 2.2](https://dotnet.microsoft.com/download/dotnet-core/2.2)
-- [AWS CLI](https://docs.aws.amazon.com/polly/latest/dg/setup-aws-cli.html) for
-  running AWS CLI commands after configuring a
-  [default or named profile](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html)
-
-# Steps to execute
-- Download the code
-- [create a new S3 bucket](https://docs.aws.amazon.com/cli/latest/reference/s3api/create-bucket.html) for training and unlabeled data 
-- [create an IAM role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-service.html) using the policy document described below
-- go to Program.cs in each project, find all `const string` variables and replace placeholder values with actual values
-- From a command line, go to `custom-classification` project first in the downloaded folder and then execute `dotnet run` this will download all dependencies, build, and run the program. Follow the same for `analysis-job` project
-
 ```ServiceRoleArn``` uses the following policy document to grant privileges to Amazon Comprehend to access the S3 bucket where training data is stored
 ```json
 {
@@ -61,7 +48,22 @@ You need to set the following variables in Program.cs file inside `custom-classi
 }
 ```
 
-At the completion of the training you'll see a response similar to the following:
+# Prerequisites
+- [Dotnet Core 2.2](https://dotnet.microsoft.com/download/dotnet-core/2.2)
+- [AWS CLI](https://docs.aws.amazon.com/polly/latest/dg/setup-aws-cli.html) for
+  running AWS CLI commands after configuring a
+  [default or named profile](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html)
+
+# Steps to execute
+- Download the code
+- [create a new S3 bucket](https://docs.aws.amazon.com/cli/latest/reference/s3api/create-bucket.html) for training and unlabeled data 
+- [create an IAM role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-service.html) using the policy document described below
+- go to Program.cs in each project, find all `const string` variables and replace placeholder values with actual values
+- From a command line, go to `custom-classification` project first in the downloaded folder and then execute `dotnet run` this will download all dependencies, build, and run the program. Follow the same for `analysis-job` project
+
+
+
+At the completion of `custom-classification` run, you'll see an output similar to the following
 ```
 Status: [TRAINED], Message: []
 Started at: [7/3/19 9:52:14 PM], completed at: [7/3/19 9:52:14 PM]
@@ -69,7 +71,7 @@ Accuracy: [0.9149], F1Score: [0.8674], Precision: [0.8901], Recall: [0.8489]
 custom classifier created
 ```
 
-Job completion response output print
+At the completion of `analysis-job` run, you'll see an output similar to the following
 ```
 Job Id: [8df6e23b534a9c7aa2831e58cbef04ac], Name: [06df74c8-c5ba-4325-a8e1-9ba5c54eeea5], Status: [COMPLETED], Message: []
 Started at: [7/3/19 9:33:33 PM], completed at: [7/3/19 9:40:13 PM]
@@ -97,4 +99,4 @@ Error: [Found 27983 unique labels. The maximum allowed number of unique labels i
 ```
 
 # Reference
-Source of the file [training-data.csv](https://drive.google.com/file/d/0BwT5wj_P7BKXb2hfM3d2RHU1ckE/view?usp=sharing) from [this website](https://blog.cambridgespark.com/50-free-machine-learning-datasets-natural-language-processing-d88fb9c5c8da) 
+Source of the file [training-data.csv](https://drive.google.com/file/d/0BwT5wj_P7BKXb2hfM3d2RHU1ckE/view?usp=sharing) is [this website](https://blog.cambridgespark.com/50-free-machine-learning-datasets-natural-language-processing-d88fb9c5c8da) 
