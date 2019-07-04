@@ -10,6 +10,7 @@ In this sample we have done the following:
 
 
 # Configuration
+
 | Variable  | Purpose  | File |
 |---|---|---|---|---|
 | ServiceRoleArn |  IAM Service Role for Amazon Comprehend that needs to read/write from S3 buckets | Program.cs |
