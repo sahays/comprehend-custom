@@ -1,6 +1,8 @@
 # About
 .NET Core C# code samples for [Amazon Comprehend](https://aws.amazon.com/comprehend/) Custom Classification. You can use Amazon Comprehend to build your own models for custom classification, assigning a document to a class or a category.
 
+Amazon Comprehend uses natural language processing (NLP) to extract insights about the content of documents. Amazon Comprehend processes any text file in UTF-8 format. It develops insights by recognizing the entities, key phrases, language, sentiments, and other common elements in a document. Use Amazon Comprehend to create new products based on understanding the structure of documents. For example, using Amazon Comprehend you can search social networking feeds for mentions of products or scan an entire document repository for key phrases.
+
 # Overview
 Custom classification is a two step process. First you train a custom classifier to recognize the categories that are of interest to you. To train the classifier, you send Amazon Comprehend a group of labeled documents. After Amazon Comprehend builds the classifier, you send documents to be classified. The custom classifier examines each document and returns the label that best represents the content of the document.
 
