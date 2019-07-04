@@ -13,8 +13,9 @@ This sample has two .NET Core projects:
 
 # Variables
 You need to set the following variables in Program.cs file inside `custom-classification` and `analysis-job` folders before following the steps to execute the program
-| Variable  | Purpose
-|---|---|---|
+
+| Variable  | Purpose |
+|---|---|
 | ServiceRoleArn |  IAM Service Role for Amazon Comprehend that needs to read/write from S3 buckets. You need to create this role in your AWS account.
 | TrainingFile | This file has labeled data that is used by Comprehend to train the custom classifier. You can use your own file or upload the training-data.csv to your S3 bucket provided with this sample
 | InputFile  | This file has test data that is used as an input for the Comprehend classification batch job. You can use your own file or upload the training-data.csv to your S3 bucket provided with this sample
