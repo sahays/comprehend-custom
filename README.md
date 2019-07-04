@@ -6,11 +6,10 @@ Custom classification is a two step process. First you train a custom classifier
 
 In this sample we have done the following:
 - Used Amazon Comprehend to create a [Custom Classifier](https://docs.aws.amazon.com/comprehend/latest/dg/how-document-classification-training.html)
-- Used Amazon Comprehend custom classifier to categorize unlabeled documents in a test file (each line is a document) by starting a [classification job](https://docs.aws.amazon.com/comprehend/latest/dg/how-class-run.html)
+- Used Amazon Comprehend custom classifier to categorize unlabeled documents in a test file (each line is a document) by starting a [classification job](https://docs.aws.amazon.com/comprehend/latest/dg/how-class-run.html) that helps you Analyze the content of documents stored in Amazon S3 to find insights like entities, phrases, primary language or sentiment
 
 
 # Configuration
-
 | Variable  | Purpose  | File |
 |---|---|---|
 | ServiceRoleArn |  IAM Service Role for Amazon Comprehend that needs to read/write from S3 buckets | Program.cs |
@@ -71,6 +70,16 @@ Job completion response output print
 Job Id: [8df6e23b534a9c7aa2831e58cbef04ac], Name: [06df74c8-c5ba-4325-a8e1-9ba5c54eeea5], Status: [COMPLETED], Message: []
 Started at: [7/3/19 9:33:33 PM], completed at: [7/3/19 9:40:13 PM]
 Output located at: [s3://<your-bucket-name>/<some-object-key>/<your-account-id>-CLN-8df6e23b534a9c7aa2831e58cbef04ac/output/output.tar.gz]
+```
+# Dependencies
+The following dependencies are defined in the .csproj file that are downloaded when you first execute `dotnet run`
+```
+<ItemGroup>
+    <PackageReference Include="AWSSDK.Comprehend" Version="3.3.101" />
+    <PackageReference Include="AWSSDK.Extensions.NETCore.Setup" Version="3.3.100.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
+</ItemGroup>
 ```
 
 # Troubleshooting
