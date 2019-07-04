@@ -4,9 +4,9 @@
 # Overview
 Custom classification is a two step process. First you train a custom classifier to recognize the categories that are of interest to you. To train the classifier, you send Amazon Comprehend a group of labeled documents. After Amazon Comprehend builds the classifier, you send documents to be classified. The custom classifier examines each document and returns the label that best represents the content of the document.
 
-In this sample we have done the following:
-- Used Amazon Comprehend to create a [Custom Classifier](https://docs.aws.amazon.com/comprehend/latest/dg/how-document-classification-training.html)
-- Used Amazon Comprehend custom classifier to categorize unlabeled documents in a test file (each line is a document) by starting a [classification job](https://docs.aws.amazon.com/comprehend/latest/dg/how-class-run.html) that helps you Analyze the content of documents stored in Amazon S3 to find insights like entities, phrases, primary language or sentiment
+This sample has two .NET Core projects:
+- The project `custom-classification` uses Amazon Comprehend to create a [Custom Classifier](https://docs.aws.amazon.com/comprehend/latest/dg/how-document-classification-training.html)
+- The project `analysis-job` uses Amazon Comprehend custom classifier to categorize unlabeled documents in a test file (each line is a document) by starting a [classification job](https://docs.aws.amazon.com/comprehend/latest/dg/how-class-run.html) that helps you Analyze the content of documents stored in Amazon S3 to find insights like entities, phrases, primary language or sentiment
 
 
 # Configuration
@@ -27,8 +27,8 @@ In this sample we have done the following:
 - Download the code
 - [create a new S3 bucket](https://docs.aws.amazon.com/cli/latest/reference/s3api/create-bucket.html) for training and unlabeled data 
 - [create an IAM role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-service.html) using the policy document described below
-- go to Program.cs, find all variables with `<your->` and replace them with actual values in your own test account
-- From a command line, go to the downloaded folder and then execute `dotnet run` this will download all dependencies, build, and run the code
+- go to Program.cs in each project, find all variables with `<your->` and replace them with actual values in your own test account
+- From a command line, go to `custom-classification` project first in the downloaded folder and then execute `dotnet run` this will download all dependencies, build, and run the code. Follow the same for `analysis-job` project
 
 ```ServiceRoleArn``` uses the following policy document to grant privileges to Amazon Comprehend to access the S3 bucket where training data is stored
 ```json
@@ -93,4 +93,4 @@ Error: [Found 27983 unique labels. The maximum allowed number of unique labels i
 ```
 
 # Reference
-Source of the file [JEOPARDY_CSV.csv](https://drive.google.com/file/d/0BwT5wj_P7BKXb2hfM3d2RHU1ckE/view?usp=sharing) from [this website](https://blog.cambridgespark.com/50-free-machine-learning-datasets-natural-language-processing-d88fb9c5c8da) 
+Source of the file [training-data.csv](https://drive.google.com/file/d/0BwT5wj_P7BKXb2hfM3d2RHU1ckE/view?usp=sharing) from [this website](https://blog.cambridgespark.com/50-free-machine-learning-datasets-natural-language-processing-d88fb9c5c8da) 
