@@ -12,7 +12,7 @@ In this sample we have done the following:
 # Configuration
 
 | Variable  | Purpose  | File |
-|---|---|---|---|---|
+|---|---|---|
 | ServiceRoleArn |  IAM Service Role for Amazon Comprehend that needs to read/write from S3 buckets | Program.cs |
 | TrainingFile | This file has labeled data that is used by Comprehend to train the custom classifier  | Program.cs |
 | InputFile  | This file has unlabeled data that is used as an input for the Comprehend classification batch job  | Program.cs  |
