@@ -11,13 +11,14 @@ This sample has two .NET Core projects:
 - The project `analysis-job` uses Amazon Comprehend custom classifier to categorize unlabeled documents in a test file (each line is a document) by starting a [classification job](https://docs.aws.amazon.com/comprehend/latest/dg/how-class-run.html) that helps you Analyze the content of documents stored in Amazon S3 to find insights like entities, phrases, primary language or sentiment
 
 
-# Configuration
-| Variable  | Purpose  | File |
+# Variables
+You need to set the following variables in Program.cs file inside `custom-classification` and `analysis-job` folders before following the steps to execute the program
+| Variable  | Purpose
 |---|---|---|
-| ServiceRoleArn |  IAM Service Role for Amazon Comprehend that needs to read/write from S3 buckets | Program.cs |
-| TrainingFile | This file has labeled data that is used by Comprehend to train the custom classifier  | Program.cs |
-| InputFile  | This file has unlabeled data that is used as an input for the Comprehend classification batch job  | Program.cs  |
-| OutputLocation | This is the S3 bucket where the Comprehend classification batch job output will be emitted | Program.cs |
+| ServiceRoleArn |  IAM Service Role for Amazon Comprehend that needs to read/write from S3 buckets. You need to create this role in your AWS account.
+| TrainingFile | This file has labeled data that is used by Comprehend to train the custom classifier. You can use your own file or upload the training-data.csv to your S3 bucket provided with this sample
+| InputFile  | This file has test data that is used as an input for the Comprehend classification batch job. You can use your own file or upload the training-data.csv to your S3 bucket provided with this sample
+| OutputLocation | This is the S3 bucket where the Comprehend classification batch job output will be emitted. You can see a sample output file `output.jsonl` in the `analysis-job` folder
 
 # Prerequisites
 - [Dotnet Core 2.2](https://dotnet.microsoft.com/download/dotnet-core/2.2)
@@ -30,7 +31,7 @@ This sample has two .NET Core projects:
 - [create a new S3 bucket](https://docs.aws.amazon.com/cli/latest/reference/s3api/create-bucket.html) for training and unlabeled data 
 - [create an IAM role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-service.html) using the policy document described below
 - go to Program.cs in each project, find all variables with `<your->` and replace them with actual values in your own test account
-- From a command line, go to `custom-classification` project first in the downloaded folder and then execute `dotnet run` this will download all dependencies, build, and run the code. Follow the same for `analysis-job` project
+- From a command line, go to `custom-classification` project first in the downloaded folder and then execute `dotnet run` this will download all dependencies, build, and run the program. Follow the same for `analysis-job` project
 
 ```ServiceRoleArn``` uses the following policy document to grant privileges to Amazon Comprehend to access the S3 bucket where training data is stored
 ```json
