@@ -16,9 +16,9 @@ You need to set the following variables in Program.cs file inside `custom-classi
 
 | Variable  | Purpose |
 |---|---|
-| ServiceRoleArn |  IAM Service Role for Amazon Comprehend that needs to read/write from S3 buckets. You need to create this role in your AWS account.
-| TrainingFile | This file has labeled data that is used by Comprehend to train the custom classifier. You can use your own file or upload the training-data.csv to your S3 bucket provided with this sample
-| InputFile  | This file has test data that is used as an input for the Comprehend classification batch job. You can use your own file or upload the training-data.csv to your S3 bucket provided with this sample
+| ServiceRoleArn |  IAM Service Role for Amazon Comprehend that needs read/write access to S3 buckets. You need to create this role in your AWS account and then set it's ARN to this variable
+| TrainingFile | This file has labeled data that is used by Comprehend to train the custom classifier. You can use your own file or upload the `training-data.csv` to your S3 bucket provided with this sample
+| InputFile  | This file has test data that is used as an input for the Comprehend classification batch job. You can use your own file or upload the `test-data.csv` to your S3 bucket provided with this sample
 | OutputLocation | This is the S3 bucket where the Comprehend classification batch job output will be emitted. You can see a sample output file `output.jsonl` in the `analysis-job` folder
 
 # Prerequisites
@@ -31,7 +31,7 @@ You need to set the following variables in Program.cs file inside `custom-classi
 - Download the code
 - [create a new S3 bucket](https://docs.aws.amazon.com/cli/latest/reference/s3api/create-bucket.html) for training and unlabeled data 
 - [create an IAM role](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-service.html) using the policy document described below
-- go to Program.cs in each project, find all variables with `<your->` and replace them with actual values in your own test account
+- go to Program.cs in each project, find all `const string` variables and replace placeholder values with actual values
 - From a command line, go to `custom-classification` project first in the downloaded folder and then execute `dotnet run` this will download all dependencies, build, and run the program. Follow the same for `analysis-job` project
 
 ```ServiceRoleArn``` uses the following policy document to grant privileges to Amazon Comprehend to access the S3 bucket where training data is stored
